@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upgrade to Unlimited - Custom Enter Pro</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;600;700;800&display=swap');
+
+  :root {
+    --primary: #0052D4;
+    --primary-light: #4364F7;
+    --primary-dark: #003285;
+    --accent: #ff9800;
+    --accent-light: #ffc107;
+    --bg: #f8fafc;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --card-bg: #ffffff;
+    --border: #e2e8f0;
+
+    /* タイルテーマカラー (ホバー時用) */
+    --clr-profile: #0052D4;    /* 青 */
+    --clr-countdown: #ff9800;  /* オレンジ */
+    --clr-widget: #fbc02d;     /* 黄色 */
+    --clr-guard: #e63946;      /* 赤 */
+    --clr-team: #6a1b9a;       /* 紫 */
+    --clr-sync: #00897b;       /* テール */
+  }
+  
+  /* 言語切り替えロジック */
+  html[lang="en"] .ja, html[lang="ja"] .en { display: none !important; }
+  
+  body { 
+    font-family: 'Inter', 'Noto Sans JP', sans-serif; 
+    background-color: var(--bg); 
+    color: var(--text-main); 
+    margin: 0; 
+    padding: 0; 
+    line-height: 1.7; 
+    overflow-x: hidden;
+  }
+  
+  /* グラスモーフィズムヘッダー */
+  header { 
+    background: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 15px 5%; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+    position: sticky; 
+    top: 0; 
+    z-index: 1000; 
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+  }
+  
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; font-size: 22px; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+  
+  .lang-switch { display: flex; gap: 8px; background: #f1f5f9; padding: 4px; border-radius: 8px; }
+  .lang-switch button { background: transparent; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-muted); transition: 0.3s; }
+  .lang-switch button.active { background: #fff; color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+  /* ヒーローセクション */
+  .hero-wrapper {
+    position: relative;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light), #6FB1FC);
+    color: white;
+    padding: 80px 20px 140px; /* 波形と被らないように下部の余白を調整 */
+    overflow: hidden;
+  }
+  
+  .hero-wrapper::before {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    animation: rotateBg 30s linear infinite;
+  }
+  
+  @keyframes rotateBg { 100% { transform: rotate(360deg); } }
+
+  .hero-content-inner {
+    max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 40px; position: relative; z-index: 2;
+  }
+
+  .hero-text { flex: 1.2; text-align: center; } 
+  .hero-image { flex: 1; text-align: center; }
+
+  .hero h1 { font-size: clamp(32px, 4vw, 48px); margin-top: 0; margin-bottom: 20px; font-weight: 800; line-height: 1.2; letter-spacing: -1px; }
+  .hero h1 span { 
+    background: linear-gradient(to right, #FFDF00, #ff9800); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    text-shadow: 0px 4px 20px rgba(255, 152, 0, 0.4); 
+    display: inline-block;
+  }
+  .hero p { font-size: 18px; opacity: 0.9; margin-bottom: 40px; line-height: 1.6; max-width: 800px; margin-left: auto; margin-right: auto; }
+  
+  /* 名刺アスペクト比(約1.586:1)とエメラルドグリーンネオン枠 */
+  .price-card { 
+    background: #ffffff; 
+    border: 4px solid #00e676; 
+    border-radius: 16px; 
+    
+    aspect-ratio: 1.586 / 1;
+    width: 100%;
+    max-width: 480px; 
+    margin: 0 auto; 
+    box-sizing: border-box;
+    padding: 20px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    box-shadow: 0 0 25px rgba(0, 230, 118, 0.5), inset 0 0 15px rgba(0, 230, 118, 0.2); 
+    position: relative; 
+    overflow: hidden; 
+    text-align: center; 
+  }
+  
+  .price-card .badge { 
+    position: absolute; 
+    top: 25px; 
+    right: -35px; 
+    background: #e63946; 
+    color: #fff; 
+    padding: 6px 45px; 
+    transform: rotate(45deg); 
+    font-size: 13px; 
+    font-weight: 800; 
+    letter-spacing: 1px; 
+    box-shadow: 0 4px 10px rgba(230,57,70,0.4); 
+    z-index: 10;
+  }
+  
+  /* 「買い切り」テキストの設定 */
+  .price-card .term { 
+    font-size: 22px; 
+    color: #003285; 
+    display: block; 
+    margin-bottom: 15px; 
+    font-weight: 800; 
+    line-height: 1.4; 
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+  }
+  .price-card .term small {
+    font-size: 16px; 
+    opacity: 0.9;
+  }
+
+  /* 価格・定価表記の中央揃え */
+  .price-display-wrapper { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    position: relative; 
+    z-index: 2; 
+  }
+  
+  /* ★修正: 500と円の底辺を完璧に揃えるためのベースライン調整 */
+  .amount-main { 
+    display: flex; 
+    align-items: baseline; 
+    justify-content: center;
+    line-height: 1; 
+  }
+
+  /* ★修正: 隠しテキストを使って基準線（ベースライン）と自動幅を確保 */
+  .dynamic-price-box {
+    position: relative;
+    display: inline-block;
+  }
+
+  .amount-value { 
+    font-size: 90px; 
+    font-weight: 800; 
+    color: #003285; 
+  } 
+  
+  /* ★修正: 通貨と数字が被らないよう明確なマージンを設定 */
+  .currency-unit { 
+    font-size: 32px; 
+    font-weight: 800; 
+    color: #0052D4; 
+    margin-left: 8px; /* 被り防止のための安全な余白 */
+  } 
+
+  /* 最初の「980」のアニメーション */
+  .price-old-anim {
+    position: absolute;
+    top: 0; left: 0; width: 100%; text-align: center;
+    animation: priceDropOld 2.5s forwards;
+  }
+  
+  /* 取り消し線（赤色）のアニメーション */
+  .price-old-anim::after {
+    content: '';
+    position: absolute;
+    top: 55%;
+    left: -5%;
+    width: 0;
+    height: 8px;
+    background: #e63946;
+    transform: translateY(-50%) rotate(-12deg);
+    animation: strikeDraw 0.4s forwards;
+    animation-delay: 0.8s; /* 0.8秒後に線を引く */
+  }
+
+  /* 新しい「500」のアニメーション */
+  .price-new-anim {
+    position: absolute;
+    top: 0; left: 0; width: 100%; text-align: center;
+    opacity: 0;
+    color: #ff9800; 
+    transform: scale(0.5) translateY(40px);
+    animation: pricePopNew 0.8s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation-delay: 1.4s; 
+  }
+
+  /* キーフレーム */
+  @keyframes strikeDraw {
+    to { width: 110%; }
+  }
+  @keyframes priceDropOld {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1); } 
+    56% { opacity: 0; transform: scale(0.8) translateY(-20px); } 
+    100% { opacity: 0; transform: scale(0.8) translateY(-20px); }
+  }
+  @keyframes pricePopNew {
+    100% { opacity: 1; transform: scale(1) translateY(0); color: #003285; } 
+  }
+
+  /* 定価表記のフェードインアニメーション */
+  .old-price-ja, .old-price-en { 
+    text-decoration: line-through; 
+    color: #64748b; 
+    font-size: 18px; 
+    font-weight: 700; 
+    margin-top: 8px; 
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+    animation-delay: 2s; 
+  } 
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  /* 光るCTAボタン */
+  .cta-link { 
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    background: linear-gradient(135deg, #ff9800, #f57c00); 
+    color: white; text-decoration: none; 
+    padding: 20px 50px; font-size: 22px; font-weight: 800; 
+    border-radius: 50px; margin-top: 30px; 
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+    box-shadow: 0 10px 30px rgba(255,152,0,0.4); 
+    position: relative; overflow: hidden;
+  }
+  .cta-link::after {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+    transform: rotate(45deg); animation: shine 3s infinite;
+  }
+  .cta-link:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 40px rgba(255,152,0,0.6); }
+
+  /* 波形下部の境界線を完全に消去 */
+  .wave-divider { 
+    position: absolute; 
+    bottom: -2px; 
+    left: 0; 
+    width: 100%; 
+    overflow: hidden; 
+    line-height: 0; 
+    transform: translateY(1px); 
+  }
+  .wave-divider svg { 
+    display: block; 
+    width: calc(100% + 2px); 
+    height: 80px; 
+  }
+  .wave-divider .shape-fill { fill: var(--bg); }
+
+  /* セクション見出し */
+  h2.section-title { 
+  text-align: center; 
+  margin-top: 80px; 
+  margin-bottom: 50px; 
+  /* font-sizeをclampに変更して、画面幅に合わせて可変にします */
+  font-size: clamp(24px, 6vw, 32px); 
+  font-weight: 800; 
+  color: var(--text-main); 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 15px;
+  /* 文字をできるだけ一列に収める指定 */
+  white-space: nowrap; 
+}
+  h2.section-title::after { content: ''; width: 80px; height: 5px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 5px; }
+
+  /* グリッドレイアウト */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 80px; }
+  .card { 
+    background: var(--card-bg); padding: 40px 30px; border-radius: 20px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid var(--border); 
+    transition: all 0.4s ease; display: flex; flex-direction: column; 
+    position: relative; z-index: 1; overflow: hidden;
+  }
+  
+  /* 上部バーのアニメーション設定 */
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+    transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+  }
+  .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: transparent; }
+  .card:hover::before { transform: scaleX(1); }
+  
+  .card .icon-wrapper { 
+    width: 64px; height: 64px; border-radius: 16px; 
+    background: #f1f5f9; 
+    display: flex; align-items: center; justify-content: center; 
+    margin-bottom: 25px; 
+    transition: all 0.3s ease; 
+  }
+
+  /* 通常時のアイコン色 (青を黒に置き換え) */
+  .card .icon-wrapper svg path.primary { fill: #000000; transition: fill 0.3s ease; }
+  .card .icon-wrapper svg path.secondary { fill: #94A3B8; transition: fill 0.3s ease; }
+
+  .card h3 { margin: 0 0 15px 0; font-size: 20px; font-weight: 700; color: var(--text-main); }
+  .card p { margin: 0; font-size: 15px; color: var(--text-muted); line-height: 1.7; flex-grow: 1; }
+
+  /* タイルごとのホバー・選択エフェクト (全6色) */
+  
+  /* 1. プロファイル無制限 (青) */
+  .card-profile:hover { background-color: rgba(0, 82, 212, 0.08); }
+  .card-profile::before { background: var(--clr-profile); }
+  .card-profile:hover .icon-wrapper { background-color: var(--clr-profile); }
+  .card-profile:hover svg path.primary { fill: #ffffff; }
+  .card-profile:hover svg path.secondary { fill: rgba(255,255,255,0.7); }
+
+  /* 2. 送信カウントダウン (オレンジ) */
+  .card-countdown:hover { background-color: rgba(255, 152, 0, 0.08); }
+  .card-countdown::before { background: var(--clr-countdown); }
+  .card-countdown:hover .icon-wrapper { background-color: var(--clr-countdown); }
+  .card-countdown:hover svg path.primary { fill: #ffffff; }
+  .card-countdown:hover svg path.secondary { fill: rgba(255,255,255,0.7); }
+
+  /* 3. ウィジェット解放 (黄色) */
+  .card-widget:hover { background-color: rgba(251, 192, 45, 0.08); }
+  .card-widget::before { background: var(--clr-widget); }
+  .card-widget:hover .icon-wrapper { background-color: var(--clr-widget); }
+  .card-widget:hover svg path.primary { fill: #ffffff; }
+  .card-widget:hover svg path.secondary { fill: rgba(255,255,255,0.7); }
+
+  /* 4. 時間帯ブロック (赤) */
+  .card-guard:hover { background-color: rgba(230, 57, 70, 0.08); }
+  .card-guard::before { background: var(--clr-guard); }
+  .card-guard:hover .icon-wrapper { background-color: var(--clr-guard); }
+  .card-guard:hover svg path.primary { fill: #ffffff; }
+  .card-guard:hover svg path.secondary { fill: rgba(255,255,255,0.7); }
+
+  /* 5. チーム共有 (紫) */
+  .card-team:hover { background-color: rgba(106, 27, 154, 0.08); }
+  .card-team::before { background: var(--clr-team); }
+  .card-team:hover .icon-wrapper { background-color: var(--clr-team); }
+  .card-team:hover svg path.primary { fill: #ffffff; }
+  .card-team:hover svg path.secondary { fill: rgba(255,255,255,0.7); }
+
+  /* 6. 全PC同期 (テール) */
+  .card-sync:hover { background-color: rgba(0, 137, 123, 0.08); }
+  .card-sync::before { background: var(--clr-sync); }
+  .card-sync:hover .icon-wrapper { background-color: var(--clr-sync); }
+  .card-sync:hover svg path.primary { fill: #ffffff; }
+  .card-sync:hover svg path.secondary { fill: rgba(255,255,255,0.7); }
+
+
+  /* 免責事項 */
+  .disclaimer { margin-top: 40px; margin-bottom: 60px; background: #fff8e1; border-left: 6px solid #ffc107; padding: 30px; border-radius: 0 12px 12px 0; color: #856404; box-shadow: 0 5px 15px rgba(255,193,7,0.1); }
+  .disclaimer h4 { margin-top: 0; margin-bottom: 15px; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+  .disclaimer ul { margin: 0; padding-left: 20px; font-size: 14.5px; line-height: 1.8; }
+  .disclaimer li { margin-bottom: 10px; }
+
+  footer { text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px; font-weight: 600; background: #e2e8f0; }
+
+  /* レスポンシブ対応 */
+  @media (max-width: 1024px) { 
+    .hero-content-inner { flex-direction: column; text-align: center; padding-top: 20px; }
+    .grid { grid-template-columns: repeat(2, 1fr); } 
+    .hero h1 { font-size: 38px; }
+  }
+  @media (max-width: 768px) { 
+    .grid { grid-template-columns: 1fr; } 
+    header { padding: 15px 20px; } 
+    .hero-wrapper { padding: 60px 15px 120px; }
+    
+    .price-card { max-width: 400px; padding: 25px; }
+    .price-card .term { font-size: 20px; } 
+    .price-card .term small { font-size: 14px; }
+    
+    .amount-value { font-size: 64px; }
+    .currency-unit { font-size: 24px; margin-left: 6px; }
+    .old-price-ja, .old-price-en { font-size: 16px; margin-top: 4px; }
+    
+    .cta-link { font-size: 18px; padding: 18px 20px; width: 100%; box-sizing: border-box; } 
+    .hero-image svg { max-width: 100%; height: auto; }
+  }
+  /* --- 追加分：スマホ表示の最適化 --- */
+  .mobile-only {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-only {
+      display: block;
+    }
+    .hero h1 {
+      text-align: center;
+      line-height: 1.3;
+      font-size: clamp(28px, 8vw, 36px);
+    }
+    h2.section-title { 
+      font-size: clamp(24px, 6vw, 32px); 
+      white-space: nowrap; 
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="36" height="36">
+      <rect width="1000" height="1000" rx="225" fill="#0052D4" />
+      <path d="M 350 480 L 200 630 L 350 780 L 350 680 L 750 680 L 750 300 L 650 300 L 650 580 L 350 580 Z" fill="#FFFFFF" />
+      <circle cx="700" cy="280" r="55" stroke="#FFC107" stroke-width="70" fill="none" />
+    </svg>
+    <span>Custom Enter Pro</span>
+  </a>
+  <div class="lang-switch">
+    <button onclick="setLang('ja')" id="btn-ja" class="active">JP</button>
+    <button onclick="setLang('en')" id="btn-en">EN</button>
+  </div>
+</header>
+
+<div class="hero-wrapper">
+  <div class="hero-content-inner hero">
+    <div class="hero-text">
+      <div class="ja">
+        <h1>
+    Custom Enter Pro<br class="mobile-only">
+    <span>Unlimited</span><br class="mobile-only">
+    へアップグレード
+  </h1>
+        <p>インストールありがとうございます！試用期間終了後もすべての機能を解放し、あなたのチャットワークフローを最強の効率化ツールへと進化させましょう。</p>
+      </div>
+      <div class="en">
+        <h1>Upgrade to Custom Enter Pro<br><span>Unlimited</span></h1>
+        <p>Thanks for installing! Unlock all features even after the trial expires, and evolve your chat workflow into the ultimate efficiency tool.</p>
+      </div>
+
+      <div class="price-card">
+        <span class="badge ja">リリース記念</span>
+        <span class="badge en">Release Sale</span>
+        
+        <span class="term ja">買い切り<br><small>(追加費用・サブスクなし)</small></span>
+        <span class="term en">One-time Purchase<br><small>(No Subscriptions)</small></span>
+        
+        <div class="price-display-wrapper">
+          <div class="amount-main">
+            <div class="dynamic-price-box ja">
+              <span class="amount-value" style="visibility: hidden;">980</span>
+              <span class="amount-value price-old-anim">980</span>
+              <span class="amount-value price-new-anim">500</span>
+            </div>
+            <span class="currency-unit ja">円</span>
+            
+            <div class="dynamic-price-box en">
+              <span class="amount-value" style="visibility: hidden;">980</span>
+              <span class="amount-value price-old-anim">980</span>
+              <span class="amount-value price-new-anim">500</span>
+            </div>
+            <span class="currency-unit en">JPY</span>
+          </div>
+          
+          <span class="old-price-ja ja">(定価 980円)</span>
+          <span class="old-price-en en">(Reg. 980 JPY)</span>
+        </div>
+      </div>
+      <br>
+      <a href="https://your-shop.booth.pm/items/1234567" class="cta-link" id="cepBoothLink" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        <span class="ja">BOOTHでライセンスキーを購入する</span>
+        <span class="en">Get License Key on BOOTH</span>
+      </a>
+    </div>
+    
+    <div class="hero-image">
+      <svg width="400" height="350" viewBox="0 0 400 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="50" y="80" width="300" height="180" rx="16" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.4)" stroke-width="3"/>
+        <rect x="70" y="100" width="260" height="20" rx="6" fill="rgba(255,255,255,0.3)"/>
+        <rect x="70" y="135" width="40" height="40" rx="6" fill="rgba(255,255,255,0.8)"/>
+        <rect x="120" y="135" width="40" height="40" rx="6" fill="rgba(255,255,255,0.8)"/>
+        <rect x="170" y="135" width="40" height="40" rx="6" fill="rgba(255,255,255,0.8)"/>
+        <rect x="220" y="135" width="40" height="40" rx="6" fill="rgba(255,255,255,0.8)"/>
+        <rect x="270" y="135" width="60" height="90" rx="6" fill="#FFC107"/>
+        <rect x="70" y="185" width="190" height="40" rx="6" fill="rgba(255,255,255,0.8)"/>
+        <path d="M290 170 L285 180 L300 180 Z" fill="#fff"/>
+        <circle cx="330" cy="60" r="30" fill="#4364F7"/>
+        <path d="M320 60 L328 68 L342 50" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="70" cy="280" r="20" fill="#FF9800"/>
+        <path d="M250 20 L300 10 L280 50 Z" fill="rgba(255,255,255,0.2)"/>
+        <path d="M100 320 L130 290 L150 330 Z" fill="rgba(255,255,255,0.2)"/>
+      </svg>
+    </div>
+  </div>
+  
+  <div class="wave-divider">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,119.32,192.73,101.4,236.4,91.31,279.7,73.5,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+  </div>
+</div>
+
+<div class="container">
+  <h2 class="section-title">
+    <span class="ja">解除される Unlimited 機能</span>
+    <span class="en">Unlock Unlimited Features</span>
+  </h2>
+  
+  <div class="grid">
+    
+    <div class="card card-profile">
+      <div class="icon-wrapper">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="secondary" d="M20 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V6C22 4.89543 21.1046 4 20 4Z" fill="#94A3B8"/><path class="primary" d="M20 4H4C2.89543 4 2 4.89543 2 6V9H22V6C22 4.89543 21.1046 4 20 4Z" fill="#000000"/><circle cx="5.5" cy="6.5" r="1.5" fill="#ffffff"/><circle cx="9.5" cy="6.5" r="1.5" fill="#ffffff"/></svg>
+      </div>
+      <h3 class="ja">カスタムプロファイル無制限</h3>
+      <p class="ja">無料版は2つまでの制限がありますが、Unlimited版はいくつでもサイトを追加・保存できます。あらゆるWebツールを支配下に。</p>
+      <h3 class="en">Unlimited Custom Profiles</h3>
+      <p class="en">The free version is limited to 2 custom profiles. Unlimited lets you add and save as many sites as you need, taking control of all your web tools.</p>
+    </div>
+
+    <div class="card card-countdown">
+      <div class="icon-wrapper">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="secondary" d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" fill="#94A3B8"/><path class="primary" d="M12.5 7H11V13L16.2 16.2L17 14.9L12.5 12.2V7Z" fill="#000000"/></svg>
+      </div>
+      <h3 class="ja">「あっ！」と思っても間に合う</h3>
+      <p class="ja">解放される「カウントダウン送信」を使えば、送信ボタンを押した直後に指定秒数ユウヨが発生。宛先や添付忘れに気づいたら即キャンセルできます。</p>
+      <h3 class="en">Cancel a Mistake Instantly</h3>
+      <p class="en">With 'Countdown Send', sending is delayed by a few seconds. Realize a typo or missing attachment? Hit cancel before it goes out.</p>
+    </div>
+
+    <div class="card card-widget">
+      <div class="icon-wrapper">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect class="primary" x="3" y="3" width="7" height="7" rx="2" fill="#000000"/><rect class="secondary" x="14" y="3" width="7" height="7" rx="2" fill="#94A3B8"/><rect class="secondary" x="3" y="14" width="7" height="7" rx="2" fill="#94A3B8"/><rect class="primary" x="14" y="14" width="7" height="7" rx="2" fill="#000000"/></svg>
+      </div>
+      <h3 class="ja">便利な全ウィジェット解放</h3>
+      <p class="ja">文字数カウンター、リアルタイム翻訳、入力中テキストの自動バックアップ機能など、画面上を自由に動かせるフロートウィジェットがすべてONになります。</p>
+      <h3 class="en">All Handy Widgets Unlocked</h3>
+      <p class="en">Character Counter, Real-time Translation, and Auto-Backup floating widgets are all fully enabled and draggable anywhere on screen.</p>
+    </div>
+
+    <div class="card card-guard">
+      <div class="icon-wrapper">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="secondary" d="M18 8H6C4.9 8 4 8.9 4 10V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V10C20 8.9 19.1 8 18 8Z" fill="#94A3B8"/><path class="primary" d="M12 17C13.1046 17 14 16.1046 14 15C14 13.8954 13.1046 13 12 13C10.8954 13 10 13.8954 10 15C10 16.1046 10.8954 17 12 17Z" fill="#000000"/><path class="primary" d="M8 8V6C8 3.79 9.79 2 12 2C14.21 2 16 3.79 16 6V8H14V6C14 4.9 13.1 4 12 4C10.9 4 10 4.9 10 6V8H8Z" fill="#000000"/></svg>
+      </div>
+      <h3 class="ja">退勤後は「強制ブロック」</h3>
+      <p class="ja">高度な送信ガード「タイムフィルター」を活用すれば、「19時以降はSlackの送信ボタンを完全にロックする」といった働き方改革が技術的に実現します。</p>
+      <h3 class="en">Enforce Work-Life Balance</h3>
+      <p class="en">Use the 'Time Filter' to completely lock the send button on Slack or Teams after your working hours to technically prevent off-hours messaging.</p>
+    </div>
+    
+    <div class="card card-team">
+      <div class="icon-wrapper">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="secondary" d="M18 16.08C17.24 16.08 16.56 16.38 16.04 16.85L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.31C15.11 18.55 15.08 18.79 15.08 19.04C15.08 20.69 16.4 22.04 18.05 22.04C19.71 22.04 21.03 20.69 21.03 19.04C21.03 17.39 19.71 16.08 18 16.08Z" fill="#94A3B8"/></svg>
+      </div>
+      <h3 class="ja">チームで最強の設定を共有</h3>
+      <p class="ja">「エクスポート・インポート」機能で、自分が作った完璧な設定ファイル（JSON）をチームメンバーに配って、組織全体の業務効率を底上げできます。</p>
+      <h3 class="en">Share Settings with Your Team</h3>
+      <p class="en">Export your perfectly tuned JSON settings and share them with colleagues to boost the entire team's workflow efficiency seamlessly.</p>
+    </div>
+
+    <div class="card card-sync">
+      <div class="icon-wrapper">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="secondary" d="M19.35 10.04C18.67 6.59 15.64 4 12 4C9.11 4 6.6 5.64 5.35 8.04C2.34 8.36 0 10.91 0 14C0 17.31 2.69 20 6 20H19C21.76 20 24 17.76 24 15C24 12.36 21.95 10.22 19.35 10.04Z" fill="#94A3B8"/><path class="primary" d="M12 10L8 14H11V18H13V14H16L12 10Z" fill="#000000"/></svg>
+      </div>
+      <h3 class="ja">1回の購入で、すべてのPCをUnlimited化</h3>
+      <p class="ja">ライセンスキーの認証状態はGoogleアカウントで安全に同期されます。追加費用なしで、自宅と会社のPCどちらもUnlimited機能で使えます。</p>
+      <h3 class="en">Unlimited on All Your PCs</h3>
+      <p class="en">Your license status securely syncs via your Google Account. Enjoy Unlimited features at home and at the office with just one purchase, no extra fees.</p>
+    </div>
+
+  </div>
+
+  <div class="disclaimer">
+    <div class="ja">
+      <h4>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        ご購入前の注意事項（必ずお読みください）
+      </h4>
+      <ul>
+        <li><strong>ライセンスの個人利用：</strong>シリアルキーはご購入者様本人のみがご利用いただけます。他者への譲渡、共有、インターネット上への公開は固く禁じます。</li>
+        <li><strong>チーム・法人利用について：</strong>複数人でご利用される場合は、必ずご利用人数分のライセンスをご購入ください。</li>
+        <li><strong>免責事項：</strong>本ソフトウェアは個人開発によるものです。アップデートやバグ修正は不定期となります。また、対象サイト（チャットツール）側の仕様変更により一部機能が使用できなくなる場合があります。あらかじめご了承ください。</li>
+      </ul>
+    </div>
+    <div class="en">
+      <h4>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        Important Notice Before Purchase
+      </h4>
+      <ul>
+        <li><strong>Personal Use Only:</strong> The serial key is strictly for the purchaser's personal use. Sharing, transferring, or publishing the key online is strictly prohibited.</li>
+        <li><strong>Team & Corporate Use:</strong> If you are using this extension as a team, please purchase a license for each individual user.</li>
+        <li><strong>Disclaimer:</strong> This is an indie-developed software. Updates and bug fixes will be released irregularly. Please note that features may break if the target chat platforms change their specifications. Thank you for your understanding.</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Custom Enter Pro © 2026</p>
+</footer>
+
+<script>
+  // 言語を切り替える関数
+  function setLang(lang) {
+    document.documentElement.lang = lang; // htmlタグのlang属性を書き換え
+    document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + lang).classList.add('active');
+
+    // ★ここでBOOTHのURLを言語ごとに切り替える
+    const buyBtn = document.getElementById('cepBoothLink');
+    if (lang === 'ja') {
+      // 日本語版BOOTHページのURLを入力
+      buyBtn.href = "https://akira-studio.booth.pm/items/8129235"; 
+    } else {
+      // 英語版BOOTHページのURLを入力
+      buyBtn.href = "https://akira-studio.booth.pm/items/8129276"; 
+    }
+  }
+
+  // ページ読み込み時に自動で言語を判定・設定
+  window.addEventListener('DOMContentLoaded', () => {
+    const userLang = navigator.language || navigator.userLanguage;
+    
+    // 日本語（ja）以外から始まる言語環境なら自動で英語（en）にする
+    if (!userLang.startsWith('ja')) {
+      setLang('en');
+    } else {
+      setLang('ja'); // 日本語環境なら日本語（ja）にする
+    }
+  });
+</script>
+
+
+</body>
+</html>
+
