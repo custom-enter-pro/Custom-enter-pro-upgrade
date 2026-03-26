@@ -21,8 +21,8 @@
 
     /* タイルテーマカラー (ホバー時用) */
     --clr-profile: #0052D4;    /* 青 */
-    --clr-countdown: #ff9800;  /* オレンジ */
-    --clr-widget: #fbc02d;     /* 黄色 */
+    --clr-countdown: #FF5722;  /* オレンジ（より赤みを強くして黄色と差別化） */
+    --clr-widget: #FFD600;     /* 黄色（よりハッキリとしたピュアな黄色に調整） */
     --clr-guard: #e63946;      /* 赤 */
     --clr-team: #6a1b9a;       /* 紫 */
     --clr-sync: #00897b;       /* テール */
@@ -70,7 +70,7 @@
     position: relative;
     background: linear-gradient(135deg, var(--primary), var(--primary-light), #6FB1FC);
     color: white;
-    padding: 80px 20px 140px; /* 波形と被らないように下部の余白を調整 */
+    padding: 80px 20px 140px; 
     overflow: hidden;
   }
   
@@ -104,13 +104,11 @@
     background: #ffffff; 
     border: 4px solid #00e676; 
     border-radius: 16px; 
-    
-    aspect-ratio: 1.586 / 1;
     width: 100%;
     max-width: 480px; 
     margin: 0 auto; 
     box-sizing: border-box;
-    padding: 20px;
+    padding: 30px 20px;
     
     display: flex;
     flex-direction: column;
@@ -138,7 +136,6 @@
     z-index: 10;
   }
   
-  /* 「買い切り」テキストの設定 */
   .price-card .term { 
     font-size: 22px; 
     color: #003285; 
@@ -155,7 +152,6 @@
     opacity: 0.9;
   }
 
-  /* 価格・定価表記の中央揃え */
   .price-display-wrapper { 
     display: flex; 
     flex-direction: column; 
@@ -165,7 +161,6 @@
     z-index: 2; 
   }
   
-  /* ★修正: 500と円の底辺を完璧に揃えるためのベースライン調整 */
   .amount-main { 
     display: flex; 
     align-items: baseline; 
@@ -173,62 +168,33 @@
     line-height: 1; 
   }
 
-  /* ★修正: 隠しテキストを使って基準線（ベースライン）と自動幅を確保 */
   .dynamic-price-box {
     position: relative;
     display: inline-block;
   }
 
-  .amount-value { 
-    font-size: 90px; 
-    font-weight: 800; 
-    color: #003285; 
-  } 
-  
-  /* ★修正: 通貨と数字が被らないよう明確なマージンを設定 */
-  .currency-unit { 
-    font-size: 32px; 
-    font-weight: 800; 
-    color: #0052D4; 
-    margin-left: 8px; /* 被り防止のための安全な余白 */
-  } 
+  .amount-value { font-size: 90px; font-weight: 800; color: #003285; } 
+  .currency-unit { font-size: 32px; font-weight: 800; color: #0052D4; margin-left: 8px; } 
 
-  /* 最初の「980」のアニメーション */
   .price-old-anim {
-    position: absolute;
-    top: 0; left: 0; width: 100%; text-align: center;
+    position: absolute; top: 0; left: 0; width: 100%; text-align: center;
     animation: priceDropOld 2.5s forwards;
   }
   
-  /* 取り消し線（赤色）のアニメーション */
   .price-old-anim::after {
-    content: '';
-    position: absolute;
-    top: 55%;
-    left: -5%;
-    width: 0;
-    height: 8px;
-    background: #e63946;
-    transform: translateY(-50%) rotate(-12deg);
-    animation: strikeDraw 0.4s forwards;
-    animation-delay: 0.8s; /* 0.8秒後に線を引く */
+    content: ''; position: absolute; top: 55%; left: -5%; width: 0; height: 8px;
+    background: #e63946; transform: translateY(-50%) rotate(-12deg);
+    animation: strikeDraw 0.4s forwards; animation-delay: 0.8s;
   }
 
-  /* 新しい「500」のアニメーション */
   .price-new-anim {
-    position: absolute;
-    top: 0; left: 0; width: 100%; text-align: center;
-    opacity: 0;
-    color: #ff9800; 
-    transform: scale(0.5) translateY(40px);
+    position: absolute; top: 0; left: 0; width: 100%; text-align: center; opacity: 0;
+    color: #ff9800; transform: scale(0.5) translateY(40px);
     animation: pricePopNew 0.8s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
     animation-delay: 1.4s; 
   }
 
-  /* キーフレーム */
-  @keyframes strikeDraw {
-    to { width: 110%; }
-  }
+  @keyframes strikeDraw { to { width: 110%; } }
   @keyframes priceDropOld {
     0% { opacity: 1; transform: scale(1); }
     50% { opacity: 1; transform: scale(1); } 
@@ -239,19 +205,35 @@
     100% { opacity: 1; transform: scale(1) translateY(0); color: #003285; } 
   }
 
-  /* 定価表記のフェードインアニメーション */
   .old-price-ja, .old-price-en { 
-    text-decoration: line-through; 
-    color: #64748b; 
-    font-size: 18px; 
-    font-weight: 700; 
-    margin-top: 8px; 
-    opacity: 0;
-    animation: fadeIn 0.5s forwards;
-    animation-delay: 2s; 
+    text-decoration: line-through; color: #64748b; font-size: 18px; font-weight: 700; margin-top: 8px; opacity: 0;
+    animation: fadeIn 0.5s forwards; animation-delay: 2s; 
   } 
-  @keyframes fadeIn {
-    to { opacity: 1; }
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  /* BOOTH URL の表示ボックス（追加・中央揃え） */
+  .booth-url-box {
+    margin-top: 25px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #475569;
+    background: #f1f5f9;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px dashed #cbd5e1;
+    width: 95%;
+    box-sizing: border-box;
+    word-break: break-all;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .hero-cta-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
 
   /* 光るCTAボタン */
@@ -272,42 +254,13 @@
   }
   .cta-link:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 40px rgba(255,152,0,0.6); }
 
-  /* 波形下部の境界線を完全に消去 */
-  .wave-divider { 
-    position: absolute; 
-    bottom: -2px; 
-    left: 0; 
-    width: 100%; 
-    overflow: hidden; 
-    line-height: 0; 
-    transform: translateY(1px); 
-  }
-  .wave-divider svg { 
-    display: block; 
-    width: calc(100% + 2px); 
-    height: 80px; 
-  }
+  .wave-divider { position: absolute; bottom: -2px; left: 0; width: 100%; overflow: hidden; line-height: 0; transform: translateY(1px); }
+  .wave-divider svg { display: block; width: calc(100% + 2px); height: 80px; }
   .wave-divider .shape-fill { fill: var(--bg); }
 
-  /* セクション見出し */
-  h2.section-title { 
-  text-align: center; 
-  margin-top: 80px; 
-  margin-bottom: 50px; 
-  /* font-sizeをclampに変更して、画面幅に合わせて可変にします */
-  font-size: clamp(24px, 6vw, 32px); 
-  font-weight: 800; 
-  color: var(--text-main); 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  gap: 15px;
-  /* 文字をできるだけ一列に収める指定 */
-  white-space: nowrap; 
-}
+  h2.section-title { text-align: center; margin-top: 80px; margin-bottom: 50px; font-size: 32px; font-weight: 800; color: var(--text-main); display: flex; flex-direction: column; align-items: center; gap: 15px; }
   h2.section-title::after { content: ''; width: 80px; height: 5px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 5px; }
 
-  /* グリッドレイアウト */
   .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 80px; }
   .card { 
     background: var(--card-bg); padding: 40px 30px; border-radius: 20px; 
@@ -316,7 +269,6 @@
     position: relative; z-index: 1; overflow: hidden;
   }
   
-  /* 上部バーのアニメーション設定 */
   .card::before {
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
     transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
@@ -326,21 +278,16 @@
   
   .card .icon-wrapper { 
     width: 64px; height: 64px; border-radius: 16px; 
-    background: #f1f5f9; 
-    display: flex; align-items: center; justify-content: center; 
-    margin-bottom: 25px; 
-    transition: all 0.3s ease; 
+    background: #f1f5f9; display: flex; align-items: center; justify-content: center; 
+    margin-bottom: 25px; transition: all 0.3s ease; 
   }
 
-  /* 通常時のアイコン色 (青を黒に置き換え) */
   .card .icon-wrapper svg path.primary { fill: #000000; transition: fill 0.3s ease; }
   .card .icon-wrapper svg path.secondary { fill: #94A3B8; transition: fill 0.3s ease; }
 
   .card h3 { margin: 0 0 15px 0; font-size: 20px; font-weight: 700; color: var(--text-main); }
   .card p { margin: 0; font-size: 15px; color: var(--text-muted); line-height: 1.7; flex-grow: 1; }
 
-  /* タイルごとのホバー・選択エフェクト (全6色) */
-  
   /* 1. プロファイル無制限 (青) */
   .card-profile:hover { background-color: rgba(0, 82, 212, 0.08); }
   .card-profile::before { background: var(--clr-profile); }
@@ -349,14 +296,14 @@
   .card-profile:hover svg path.secondary { fill: rgba(255,255,255,0.7); }
 
   /* 2. 送信カウントダウン (オレンジ) */
-  .card-countdown:hover { background-color: rgba(255, 152, 0, 0.08); }
+  .card-countdown:hover { background-color: rgba(255, 87, 34, 0.08); }
   .card-countdown::before { background: var(--clr-countdown); }
   .card-countdown:hover .icon-wrapper { background-color: var(--clr-countdown); }
   .card-countdown:hover svg path.primary { fill: #ffffff; }
   .card-countdown:hover svg path.secondary { fill: rgba(255,255,255,0.7); }
 
   /* 3. ウィジェット解放 (黄色) */
-  .card-widget:hover { background-color: rgba(251, 192, 45, 0.08); }
+  .card-widget:hover { background-color: rgba(255, 214, 0, 0.08); }
   .card-widget::before { background: var(--clr-widget); }
   .card-widget:hover .icon-wrapper { background-color: var(--clr-widget); }
   .card-widget:hover svg path.primary { fill: #ffffff; }
@@ -383,8 +330,6 @@
   .card-sync:hover svg path.primary { fill: #ffffff; }
   .card-sync:hover svg path.secondary { fill: rgba(255,255,255,0.7); }
 
-
-  /* 免責事項 */
   .disclaimer { margin-top: 40px; margin-bottom: 60px; background: #fff8e1; border-left: 6px solid #ffc107; padding: 30px; border-radius: 0 12px 12px 0; color: #856404; box-shadow: 0 5px 15px rgba(255,193,7,0.1); }
   .disclaimer h4 { margin-top: 0; margin-bottom: 15px; font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
   .disclaimer ul { margin: 0; padding-left: 20px; font-size: 14.5px; line-height: 1.8; }
@@ -392,46 +337,36 @@
 
   footer { text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px; font-weight: 600; background: #e2e8f0; }
 
-  /* レスポンシブ対応 */
+  /* PCでは改行タグを隠す */
+  .mobile-only { display: none; }
+
+  /* レスポンシブ対応 (スマホ最適化反映済み) */
   @media (max-width: 1024px) { 
     .hero-content-inner { flex-direction: column; text-align: center; padding-top: 20px; }
     .grid { grid-template-columns: repeat(2, 1fr); } 
     .hero h1 { font-size: 38px; }
   }
   @media (max-width: 768px) { 
+    .mobile-only { display: block; }
     .grid { grid-template-columns: 1fr; } 
     header { padding: 15px 20px; } 
     .hero-wrapper { padding: 60px 15px 120px; }
     
-    .price-card { max-width: 400px; padding: 25px; }
+    .hero h1 { text-align: center; line-height: 1.3; font-size: clamp(28px, 8vw, 36px); }
+    .hero h1 span { display: inline-block; margin: 5px 0; }
+    
+    .price-card { max-width: 400px; padding: 25px 15px; }
     .price-card .term { font-size: 20px; } 
     .price-card .term small { font-size: 14px; }
     
     .amount-value { font-size: 64px; }
     .currency-unit { font-size: 24px; margin-left: 6px; }
     .old-price-ja, .old-price-en { font-size: 16px; margin-top: 4px; }
+    .booth-url-box { font-size: 12px; padding: 10px; }
     
     .cta-link { font-size: 18px; padding: 18px 20px; width: 100%; box-sizing: border-box; } 
     .hero-image svg { max-width: 100%; height: auto; }
-  }
-  /* --- 追加分：スマホ表示の最適化 --- */
-  .mobile-only {
-    display: none;
-  }
-
-  @media (max-width: 768px) {
-    .mobile-only {
-      display: block;
-    }
-    .hero h1 {
-      text-align: center;
-      line-height: 1.3;
-      font-size: clamp(28px, 8vw, 36px);
-    }
-    h2.section-title { 
-      font-size: clamp(24px, 6vw, 32px); 
-      white-space: nowrap; 
-    }
+    h2.section-title { font-size: clamp(24px, 6vw, 32px); white-space: nowrap; }
   }
 </style>
 </head>
@@ -456,15 +391,11 @@
   <div class="hero-content-inner hero">
     <div class="hero-text">
       <div class="ja">
-        <h1>
-    Custom Enter Pro<br class="mobile-only">
-    <span>Unlimited</span><br class="mobile-only">
-    へアップグレード
-  </h1>
+        <h1>Custom Enter Pro<br class="mobile-only"><span>Unlimited</span><br class="mobile-only">へアップグレード</h1>
         <p>インストールありがとうございます！試用期間終了後もすべての機能を解放し、あなたのチャットワークフローを最強の効率化ツールへと進化させましょう。</p>
       </div>
       <div class="en">
-        <h1>Upgrade to Custom Enter Pro<br><span>Unlimited</span></h1>
+        <h1>Upgrade to Custom Enter Pro<br class="mobile-only"><span>Unlimited</span></h1>
         <p>Thanks for installing! Unlock all features even after the trial expires, and evolve your chat workflow into the ultimate efficiency tool.</p>
       </div>
 
@@ -495,13 +426,23 @@
           <span class="old-price-ja ja">(定価 980円)</span>
           <span class="old-price-en en">(Reg. 980 JPY)</span>
         </div>
+
+        <div class="booth-url-box ja">
+          BOOTH URL:<br>https://akira-studio.booth.pm/items/8129235
+        </div>
+        <div class="booth-url-box en">
+          BOOTH URL:<br>https://akira-studio.booth.pm/items/8129276
+        </div>
       </div>
       <br>
-      <a href="https://your-shop.booth.pm/items/1234567" class="cta-link" id="cepBoothLink" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-        <span class="ja">BOOTHでライセンスキーを購入する</span>
-        <span class="en">Get License Key on BOOTH</span>
-      </a>
+      
+      <div class="hero-cta-wrapper">
+        <a href="https://akira-studio.booth.pm/items/8129235" class="cta-link" id="cepBoothLink" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          <span class="ja">BOOTHでライセンスキーを購入する</span>
+          <span class="en">Get License Key on BOOTH</span>
+        </a>
+      </div>
     </div>
     
     <div class="hero-image">
@@ -559,16 +500,6 @@
       <p class="en">With 'Countdown Send', sending is delayed by a few seconds. Realize a typo or missing attachment? Hit cancel before it goes out.</p>
     </div>
 
-    <div class="card card-widget">
-      <div class="icon-wrapper">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect class="primary" x="3" y="3" width="7" height="7" rx="2" fill="#000000"/><rect class="secondary" x="14" y="3" width="7" height="7" rx="2" fill="#94A3B8"/><rect class="secondary" x="3" y="14" width="7" height="7" rx="2" fill="#94A3B8"/><rect class="primary" x="14" y="14" width="7" height="7" rx="2" fill="#000000"/></svg>
-      </div>
-      <h3 class="ja">便利な全ウィジェット解放</h3>
-      <p class="ja">文字数カウンター、リアルタイム翻訳、入力中テキストの自動バックアップ機能など、画面上を自由に動かせるフロートウィジェットがすべてONになります。</p>
-      <h3 class="en">All Handy Widgets Unlocked</h3>
-      <p class="en">Character Counter, Real-time Translation, and Auto-Backup floating widgets are all fully enabled and draggable anywhere on screen.</p>
-    </div>
-
     <div class="card card-guard">
       <div class="icon-wrapper">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="secondary" d="M18 8H6C4.9 8 4 8.9 4 10V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V10C20 8.9 19.1 8 18 8Z" fill="#94A3B8"/><path class="primary" d="M12 17C13.1046 17 14 16.1046 14 15C14 13.8954 13.1046 13 12 13C10.8954 13 10 13.8954 10 15C10 16.1046 10.8954 17 12 17Z" fill="#000000"/><path class="primary" d="M8 8V6C8 3.79 9.79 2 12 2C14.21 2 16 3.79 16 6V8H14V6C14 4.9 13.1 4 12 4C10.9 4 10 4.9 10 6V8H8Z" fill="#000000"/></svg>
@@ -587,6 +518,16 @@
       <p class="ja">「エクスポート・インポート」機能で、自分が作った完璧な設定ファイル（JSON）をチームメンバーに配って、組織全体の業務効率を底上げできます。</p>
       <h3 class="en">Share Settings with Your Team</h3>
       <p class="en">Export your perfectly tuned JSON settings and share them with colleagues to boost the entire team's workflow efficiency seamlessly.</p>
+    </div>
+
+    <div class="card card-widget">
+      <div class="icon-wrapper">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect class="primary" x="3" y="3" width="7" height="7" rx="2" fill="#000000"/><rect class="secondary" x="14" y="3" width="7" height="7" rx="2" fill="#94A3B8"/><rect class="secondary" x="3" y="14" width="7" height="7" rx="2" fill="#94A3B8"/><rect class="primary" x="14" y="14" width="7" height="7" rx="2" fill="#000000"/></svg>
+      </div>
+      <h3 class="ja">便利な全ウィジェット解放</h3>
+      <p class="ja">文字数カウンター、リアルタイム翻訳、入力中テキストの自動バックアップ機能など、画面上を自由に動かせるフロートウィジェットがすべてONになります。</p>
+      <h3 class="en">All Handy Widgets Unlocked</h3>
+      <p class="en">Character Counter, Real-time Translation, and Auto-Backup floating widgets are all fully enabled and draggable anywhere on screen.</p>
     </div>
 
     <div class="card card-sync">
@@ -633,37 +574,28 @@
 </footer>
 
 <script>
-  // 言語を切り替える関数
   function setLang(lang) {
-    document.documentElement.lang = lang; // htmlタグのlang属性を書き換え
+    document.documentElement.lang = lang; 
     document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
     document.getElementById('btn-' + lang).classList.add('active');
 
-    // ★ここでBOOTHのURLを言語ごとに切り替える
     const buyBtn = document.getElementById('cepBoothLink');
     if (lang === 'ja') {
-      // 日本語版BOOTHページのURLを入力
       buyBtn.href = "https://akira-studio.booth.pm/items/8129235"; 
     } else {
-      // 英語版BOOTHページのURLを入力
       buyBtn.href = "https://akira-studio.booth.pm/items/8129276"; 
     }
   }
 
-  // ページ読み込み時に自動で言語を判定・設定
   window.addEventListener('DOMContentLoaded', () => {
     const userLang = navigator.language || navigator.userLanguage;
-    
-    // 日本語（ja）以外から始まる言語環境なら自動で英語（en）にする
     if (!userLang.startsWith('ja')) {
       setLang('en');
     } else {
-      setLang('ja'); // 日本語環境なら日本語（ja）にする
+      setLang('ja'); 
     }
   });
 </script>
 
-
 </body>
 </html>
-
