@@ -83,14 +83,17 @@
   @keyframes rotateBg { 100% { transform: rotate(360deg); } }
 
   .hero-content-inner {
-    max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 40px; position: relative; z-index: 2;
+    max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: center; position: relative; z-index: 2;
   }
 
-  .hero-text { flex: 1.2; text-align: center; } 
-  .hero-image { flex: 1; text-align: center; }
+  .hero-text { flex: 1; text-align: center; max-width: 800px; z-index: 2; } 
+  
+  /* ★修正：背景画像をさらに右へずらす（right: -10%） */
+  .hero-image { position: absolute; right: -10%; top: 50%; transform: translateY(-50%); z-index: 1; opacity: 0.4; pointer-events: none; }
 
   .hero h1 { font-size: clamp(32px, 4vw, 48px); margin-top: 0; margin-bottom: 20px; font-weight: 800; line-height: 1.2; letter-spacing: -1px; }
-  .hero h1 span { 
+  
+  .hero h1 .highlight { 
     background: linear-gradient(to right, #FFDF00, #ff9800); 
     -webkit-background-clip: text; 
     -webkit-text-fill-color: transparent; 
@@ -108,7 +111,7 @@
     background: #ffffff; 
     border: 4px solid #00e676; 
     border-radius: 16px; 
-    aspect-ratio: 1.586 / 1; /* ★アスペクト比復活 */
+    aspect-ratio: 1.586 / 1; 
     width: 100%;
     max-width: 480px; 
     margin: 0 auto; 
@@ -118,12 +121,11 @@
     position: relative; 
     overflow: hidden; 
     text-align: center; 
-    text-decoration: none; /* ★リンクのアンダーライン消去 */
-    cursor: pointer;       /* ★クリックできることを示す */
+    text-decoration: none; 
+    cursor: pointer;       
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
-  /* カードホバー時のエフェクト */
   .price-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 30px rgba(0, 230, 118, 0.6), inset 0 0 15px rgba(0, 230, 118, 0.2);
@@ -219,7 +221,6 @@
   } 
   @keyframes fadeIn { to { opacity: 1; } }
 
-  /* 光るCTAボタン */
   .cta-link { 
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     background: linear-gradient(135deg, #ff9800, #f57c00); 
@@ -237,7 +238,6 @@
   }
   .cta-link:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 40px rgba(255,152,0,0.6); }
 
-  /* 波形下部の境界線を完全に消去（★横線問題の修正） */
   .wave-divider { 
     position: absolute; 
     bottom: 0; 
@@ -245,7 +245,7 @@
     width: 100%; 
     overflow: hidden; 
     line-height: 0; 
-    transform: translateY(2px); /* 隙間を完全に埋めるための調整 */
+    transform: translateY(2px);
   }
   .wave-divider svg { 
     display: block; 
@@ -284,7 +284,6 @@
   .card h3 { margin: 0 0 15px 0; font-size: 20px; font-weight: 700; color: var(--text-main); }
   .card p { margin: 0; font-size: 15px; color: var(--text-muted); line-height: 1.7; flex-grow: 1; }
 
-  /* 色の設定 */
   .card-profile:hover { background-color: rgba(0, 82, 212, 0.08); }
   .card-profile::before { background: var(--clr-profile); }
   .card-profile:hover .icon-wrapper { background-color: var(--clr-profile); }
@@ -329,9 +328,15 @@
   footer { text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px; font-weight: 600; background: #e2e8f0; }
 
   .mobile-only { display: none; }
+  
+  /* スマホでのみ非表示にするPC用改行クラス */
+  @media (max-width: 768px) {
+    .pc-only { display: none; }
+  }
 
   @media (max-width: 1024px) { 
     .hero-content-inner { flex-direction: column; text-align: center; padding-top: 20px; }
+    .hero-image { position: relative; right: auto; top: auto; transform: none; opacity: 1; margin-top: 30px; }
     .grid { grid-template-columns: repeat(2, 1fr); } 
     .hero h1 { font-size: 38px; }
   }
@@ -342,9 +347,8 @@
     .hero-wrapper { padding: 60px 15px 120px; }
     
     .hero h1 { text-align: center; line-height: 1.3; font-size: clamp(28px, 8vw, 36px); }
-    .hero h1 span { display: inline-block; margin: 5px 0; }
     
-    .price-card { max-width: 400px; padding: 20px 15px; } /* スマホでもアスペクト比を維持しつつ調整 */
+    .price-card { max-width: 400px; padding: 20px 15px; } 
     .price-card .term { font-size: 20px; } 
     .price-card .term small { font-size: 14px; }
     
@@ -378,13 +382,35 @@
 <div class="hero-wrapper">
   <div class="hero-content-inner hero">
     <div class="hero-text">
+      
       <div class="ja">
-        <h1>Custom Enter Pro<br class="mobile-only"><span>Unlimited</span><br class="mobile-only">へアップグレード</h1>
-        <p>インストールありがとうございます！試用期間終了後もすべての機能を解放し、あなたのチャットワークフローを最強の効率化ツールへと進化させましょう。</p>
+        <h1>
+          <span style="white-space: nowrap;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1em" height="1em" style="vertical-align: -0.15em; margin-right: 6px;">
+              <rect width="1000" height="1000" rx="225" fill="#0052D4" />
+              <path d="M 350 480 L 200 630 L 350 780 L 350 680 L 750 680 L 750 300 L 650 300 L 650 580 L 350 580 Z" fill="#FFFFFF" />
+              <circle cx="700" cy="280" r="55" stroke="#FFC107" stroke-width="70" fill="none" />
+            </svg>Custom Enter Pro
+          </span> 
+          <span class="highlight">Unlimited</span><br>
+          へアップグレード
+        </h1>
+        <p>インストールありがとうございます！試用期間終了後もすべての機能を解放し、<br class="pc-only">あなたのチャットワークフローを最強の効率化ツールへと進化させましょう。</p>
       </div>
+
       <div class="en">
-        <h1>Upgrade to Custom Enter Pro<br class="mobile-only"><span>Unlimited</span></h1>
-        <p>Thanks for installing! Unlock all features even after the trial expires, and evolve your chat workflow into the ultimate efficiency tool.</p>
+        <h1>
+          Upgrade to <br>
+          <span style="white-space: nowrap;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1em" height="1em" style="vertical-align: -0.15em; margin-right: 6px;">
+              <rect width="1000" height="1000" rx="225" fill="#0052D4" />
+              <path d="M 350 480 L 200 630 L 350 780 L 350 680 L 750 680 L 750 300 L 650 300 L 650 580 L 350 580 Z" fill="#FFFFFF" />
+              <circle cx="700" cy="280" r="55" stroke="#FFC107" stroke-width="70" fill="none" />
+            </svg>Custom Enter Pro
+          </span>
+          <span class="highlight">Unlimited</span>
+        </h1>
+        <p>Thanks for installing! Unlock all features even after the trial expires,<br class="pc-only">and evolve your chat workflow into the ultimate efficiency tool.</p>
       </div>
 
       <a href="https://akira-studio.booth.pm/items/8129235" target="_blank" class="price-card" id="cepBoothLinkCard">
@@ -558,7 +584,6 @@
     document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
     document.getElementById('btn-' + lang).classList.add('active');
 
-    // ★ボタンとカード両方のリンク先を切り替え
     const buyBtn = document.getElementById('cepBoothLink');
     const buyCard = document.getElementById('cepBoothLinkCard');
     if (lang === 'ja') {
